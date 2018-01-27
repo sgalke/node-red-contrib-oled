@@ -1,3 +1,176 @@
+<script type="text/x-red" data-help-name="oled-clear">
+<p>Löscht alle Pixel.</p>
+
+<h3>Input</h3>
+
+<p>Eine Message beliebigen Inhalts.</p>
+
+</script>
+
+<script type="text/x-red" data-help-name="oled-dim">
+<p>Verringert den Kontrast der Anzeige.</p>
+
+<h3>Input</h3>
+
+<p><code>msg.payload</code> steuert den Kontrast</p>
+
+<h3>Details</h3>
+
+<p><code>msg.payload</code> ist entweder <code>true</code> für verringerten Kontrast oder <code>false</code> für hohen Kontrast. Die Verringerung des Kontrasts erhöht die Lebensdauer der Pixel des OLEDs.</p>
+
+</script>
+<script type="text/x-red" data-help-name="oled-draw-line">
+<p>Zeichnet eine Linie</p>
+
+<h3>Input</h3>
+
+<p><code>msg.payload</code> enthält die Koordinaten des Start- und Endpunktes sowie einen Helligkeitswert.</p>
+
+<h3>Details</h3>
+
+<p>Pixeladressen und Helligkeitswert werden als 5-elementiges Array [xStart, yStart, xEnde, yEnde, true|false ] erwartet.</p>
+
+<p>Die adressierten Pixel werden damit gesetzt bzw. gelöscht.</p>
+
+</script>
+
+<script type="text/x-red" data-help-name="oled-draw-pixel">
+<p>Setzt oder löscht einzelne Pixel</p>
+
+<h3>Input</h3>
+
+<p><code>msg.payload</code> enthält eine Liste mit Pixeladressen und Helligkeitswerten.</p>
+
+<h3>Details</h3>
+
+<p>Pixeladresse und Helligkeitswert werden als Tripel codiert, z.B. <code>[1,1,true]</code> adressiert das Pixel in der linken oberen Ecke des Displays schaltet es ein.</p>
+
+<p>In <code>msg.payload</code> wird ein Array beliebiger Länge dieser Tripel erwartet, also z.B. </p>
+
+<pre><code>msg.payload= [[1,1,true], [2,1,true], [10,10, false], . . . ];
+</code></pre>
+
+<p>Die adressierten Pixel werden damit gesetzt bzw. gelöscht.</p>
+
+</script>
+
+<script type="text/x-red" data-help-name="oled-fill-rect">
+<p>Füllt oder löscht Pixel eines Rechtecks</p>
+
+<h3>Input</h3>
+
+<p><code>msg.payload</code> enthält die Koordinaten der linken oberen und der rechten unteren Ecke sowie einen Helligkeitswert.</p>
+
+<h3>Details</h3>
+
+<p>Zwei Pixeladressen und ein Helligkeitswert werden als 5-elementiges Array [xOben, yOben, xUnten, yUnten, true|false ] erwartet.</p>
+
+<p>Die adressierten Pixel werden damit gesetzt bzw. gelöscht.</p>
+
+</script>
+
+<script type="text/x-red" data-help-name="oled-invert">
+<p>Wechselt zwischen normaler und invertierter Darstellung</p>
+
+<h3>Input</h3>
+
+<p><code>msg.payload</code> steuert die Darstellung</p>
+
+<h3>Details</h3>
+
+<p><code>msg.payload</code> ist entweder <code>true</code> für inverse oder <code>false</code> für normale Darstellung. Das Invertieren der Darstellung kann bei der Fehlersuche hilfreich sein, verringert alledings die Lebensdauer der Pixel des OLEDs.</p>
+
+</script>
+<script type="text/x-red" data-help-name="oled-scroll">
+<p>Zeichnet eine Linie</p>
+
+<h3>Input</h3>
+
+<p><code>msg.payload</code> enthält ein Objekt mit dem Scrollrichtung und Scrollbereich spezifiziert werden, oder den booleschen Wert <code>false</code> um das Scrollen zu stoppen.</p>
+
+<h3>Details</h3>
+
+<p>Das Objekt in <code>msg.payload</code> hat 3 Eigenschaften:  <code>"direction"</code>, <code>"start"</code> und <code>"stop"</code>. Mit <code>"direction"</code> wird die Scrollrichtung vorgegeben und kann die Werte "left" oder "right" haben. Mit <code>"start"</code> und <code>"stop"</code> wird der Bereich der zu scrollenden Zeilen festgelegt, die Zeilenzählung fängt mit 0 für die erste Zeile an. Beispiel:</p>
+
+<pre><code>msg.payload= {"direction": "right", "start": 1, "stop": 3};
+</code></pre>
+
+<p>Scrollt den Inhalt der zweiten bis vierten Zeile nach rechts.</p>
+
+</script>
+
+<script type="text/x-red" data-help-name="oled-turn-off">
+<p>Schaltet das Display aus.</p>
+
+<h3>Input</h3>
+
+<p>Eine Message beliebigen Inhalts.</p>
+
+<h3>Details</h3>
+
+<p>Ausschalten des Displays löscht dessen Inhalt nicht, verlängert die Lebensdauer der Pixel.</p>
+
+</script>
+<script type="text/x-red" data-help-name="oled-turn-on">
+<p>Einschalten des Displays.</p>
+
+<h3>Input</h3>
+
+<p>Eine Message beliebigen Inhalts.</p>
+
+<h3>Details</h3>
+
+<p>Mit dem Einschalten des Displays wird dessen Inhalt wieder sichtbar. Ein ständig eingeschaltetes Display beansprucht die Lebensdauer der Pixel. Es kann deshalb sinnvoll sein, nur bei Anwesenheit von Betrachterinnen oder Betrachtern das Display einzuschalten.</p>
+
+</script>
+<script type="text/x-red" data-help-name="oled-write-string">
+<p>Textausgabe auf einem OLED Display</p>
+
+<h3>Input</h3>
+
+<p><code>msg.payload</code></p>
+
+<p>enthält den auszugebenden Text, evtl. mit Positions- oder Größenangaben.</p>
+
+<h3>Details</h3>
+
+<p><code>msg.payload</code> enthält entweder</p>
+
+<ul>
+<li>Eine Zeichenkette, die als Text auf der OLED Anzeige ausgegeben werden soll,</li>
+</ul>
+
+<p>oder </p>
+
+<ul>
+<li>ein Objekt mit den folgenden Eigenschaften:
+<ul>
+<li><code>text</code>      - Zeichenkette, die ausgegeben werden soll</li>
+<li><code>x</code>         - horizontale Pixelposition der linken oberen Ecke des ersten Zeichens,</li>
+<li><code>y</code>         - vertikale Pixelposition der linken oberen Ecke, beide Zählungen beginnen ab der linken oberen Ecke des Displays mit 1, x nach rechts, y nach unten.</li>
+<li><code>size</code>      - Zeichengröße, 1 ist die kleinste.</li>
+<li><code>wrapping</code>  - <code>false</code>, falls kein Zeilenumbruch erfolgen soll, sonst <code>true</code></li>
+<li><code>color</code>     - Text"farbe": <code>0</code> für dunkle/schwarze Pixel, <code>1</code> oder <code>255</code> für helle Pixel..</li>
+</ul></li>
+</ul>
+
+<p>Der Zeichensatz kennt keine Umlaute und kaum Sonderzeichen.</p>
+
+<h4>Beispiel:</h4>
+
+<p>Die Zuweisung </p>
+
+<pre><code>msg.payload= {
+  "text": new Date().toLocaleTimeString(),
+  "x":81,
+  "y":1,
+  "size": 1,
+  "wrapping": false};
+</code></pre>
+
+<p>in einem function node vor dem OLED write string node bewirkt die Ausgabe der aktuellen Uhrzeit ab Pixelposition [81,1] ("oben rechts").</p>
+
+</script>
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-config', {
 		category: 'config',
@@ -49,7 +222,9 @@
 
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-write-string', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -61,8 +236,9 @@
 		},
 		inputs: 1,
 		outputs: 0,
+		paletteLabel: "write string",
 		label: function() {
-			return this.name ? this.name : 'OLED String'
+			return this.name ? this.name : 'OLED write string'
 		}
 	})
 </script>
@@ -80,7 +256,9 @@
 
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-clear', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -92,8 +270,9 @@
 		},
 		inputs: 1,
 		outputs: 0,
+		paletteLabel: "clear",
 		label: function() {
-			return this.name ? this.name : 'OLED Clear'
+			return this.name ? this.name : 'OLED clear'
 		}
 	})
 </script>
@@ -111,7 +290,9 @@
 
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-dim', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -123,8 +304,9 @@
 		},
 		inputs: 1,
 		outputs: 0,
+		paletteLabel: "dim",
 		label: function() {
-			return this.name ? this.name : 'OLED Clear'
+			return this.name ? this.name : 'OLED dim'
 		}
 	})
 </script>
@@ -142,7 +324,9 @@
 
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-invert', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -154,8 +338,9 @@
 		},
 		inputs: 1,
 		outputs: 0,
+		paletteLabel: "invert",
 		label: function() {
-			return this.name ? this.name : 'OLED Dim'
+			return this.name ? this.name : 'OLED invert'
 		}
 	})
 </script>
@@ -173,7 +358,9 @@
 
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-turn-on', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -185,8 +372,9 @@
 		},
 		inputs: 1,
 		outputs: 0,
+		paletteLabel: "turn on",
 		label: function() {
-			return this.name ? this.name : 'OLED Turn on'
+			return this.name ? this.name : 'OLED turn on'
 		}
 	})
 </script>
@@ -204,7 +392,9 @@
 
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-turn-off', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -216,8 +406,9 @@
 		},
 		inputs: 1,
 		outputs: 0,
+		paletteLabel: "turn off",
 		label: function() {
-			return this.name ? this.name : 'OLED Turn on'
+			return this.name ? this.name : 'OLED turn off'
 		}
 	})
 </script>
@@ -235,7 +426,9 @@
 
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-draw-pixel', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -247,8 +440,9 @@
 		},
 		inputs: 1,
 		outputs: 0,
+		paletteLabel: "draw pixels",
 		label: function() {
-			return this.name ? this.name : 'OLED Turn on'
+			return this.name ? this.name : 'OLED draw pixels'
 		}
 	})
 </script>
@@ -266,7 +460,9 @@
 
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-draw-line', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -278,8 +474,9 @@
 		},
 		inputs: 1,
 		outputs: 0,
+		paletteLabel: "draw line",
 		label: function() {
-			return this.name ? this.name : 'OLED Turn on'
+			return this.name ? this.name : 'OLED draw line'
 		}
 	})
 </script>
@@ -297,7 +494,9 @@
 
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-fill-rect', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -309,8 +508,9 @@
 		},
 		inputs: 1,
 		outputs: 0,
+		paletteLabel: "fill rect",
 		label: function() {
-			return this.name ? this.name : 'OLED Turn on'
+			return this.name ? this.name : 'OLED fill rect'
 		}
 	})
 </script>
@@ -326,9 +526,47 @@
 	</div>
 </script>
 
+
+<script type='text/javascript'>
+	RED.nodes.registerType('oled-scroll', {
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
+		defaults: {
+			name: {
+				value: '',
+				required: false
+			},
+			display: {
+				type: 'oled-config'
+			}
+		},
+		inputs: 1,
+		outputs: 0,
+		paletteLabel: "scroll",
+		label: function() {
+			return this.name ? this.name : 'OLED scroll'
+		}
+	})
+</script>
+
+<script type='text/x-red' data-template-name='oled-scroll'>
+	<div class='form-row'>
+		<label for='node-config-input-display'><i class='fa'></i> Display</label>
+		<input type='text' id='node-input-display'/>
+	</div>
+	<div class='form-row'>
+		<label for='node-config-input-name'><i class='fa fa-tag'></i> Name</label>
+		<input type='text' id='node-input-name'/>
+	</div>
+</script>
+
+<!--
 <script type='text/javascript'>
 	RED.nodes.registerType('oled-in', {
-		category: 'oled',
+		category: 'oled_i2c_SSD1306',
+		color: '#dcdcdf',
+		align: 'right', icon: "screen_monitor2.png",
 		defaults: {
 			name: {
 				value: '',
@@ -341,10 +579,11 @@
 		inputs: 1,
 		outputs: 0,
 		label: function() {
-			return this.name ? this.name : 'OLED Turn on'
+			return this.name ? this.name : 'OLED in'
 		}
 	})
 </script>
+
 
 <script type='text/x-red' data-template-name='oled-in'>
 	<div class='form-row'>
@@ -356,3 +595,4 @@
 		<input type='text' id='node-input-name'/>
 	</div>
 </script>
+-->
